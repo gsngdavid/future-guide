@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-gradient-to-tr from-slate-900 via-slate-900 to-orange-900 bg-no-repeat h-screen`}>
         <ClerkProvider>{children}</ClerkProvider>
         <Toaster />
       </body>
