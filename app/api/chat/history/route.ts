@@ -14,6 +14,7 @@ export async function GET() {
   const messages = await ragChat.history.getMessages({
     amount: 100,
     sessionId: userSession[0],
-  })
+  });
+  
   return NextResponse.json({ messages })
 }
