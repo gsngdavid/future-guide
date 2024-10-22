@@ -1,8 +1,6 @@
 "use client";
 
 import { useChat } from "ai/react";
-// import MemoizedMD from "@/components/memoized-react-markdown";
-import Markdown from "react-markdown";
 import {
   SignInButton,
   SignUpButton,
@@ -26,7 +24,7 @@ import Messages from "../components/Messages";
 export default function Page() {
   const { toast } = useToast();
   const { isSignedIn } = useUser();
-  const [disabled, setDisabled] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const { messages, input, handleInputChange, handleSubmit, setMessages } =
     useChat();
 
@@ -56,7 +54,7 @@ export default function Page() {
       if (res.ok) {
         toast({
           duration: 2000,
-          description: "Added the PDF to AI's knowledge succesfully.",
+          description: "Added the PDF to AI's knowledge successfully.",
         });
       } else {
         toast({
@@ -78,12 +76,12 @@ export default function Page() {
         .catch((err) => {
           console.log(err);
         })
-        .finally(() => setDisabled(false));
+        .finally(() => setIsLoading(false));
     }
   }, [isSignedIn]);
 
   return (
-    <main className="w-full h-full max-w-md mx-auto flex flex-col justify-center py-8">
+    <main className="w-full h-screen max-w-2xl mx-auto flex flex-col justify-center py-8 overflow-hidden">
       {isSignedIn && (
         <>
           <input
@@ -95,7 +93,9 @@ export default function Page() {
           />
 
           <div className="flex flex-row items-start justify-between">
-            <span className="text-xl font-semibold">FutureGuide</span>
+            <h1 className="text-xl font-semibold bg-gradient-to-r from-orange-600 via-indigo-500 to-slate-400 text-transparent bg-clip-text">
+              FutureGuide
+            </h1>
             <SignedIn>
               <div className="size-[28px] rounded-full bg-black/10">
                 <UserButton />
@@ -103,8 +103,8 @@ export default function Page() {
             </SignedIn>
           </div>
 
-          <Messages isDisabled={disabled} messages={messages} />
-          <div className="fixed bottom-0 mb-8 flex w-full max-w-[82vw] flex-row items-center shadow sm:max-w-md">
+          <Messages isLoading={isLoading} messages={messages} />
+          <div className="flex w-full px-10 items-center shadow">
             <div className="cursor-pointer border bg-white px-2 py-1 pt-2 text-gray-400 hover:text-gray-800">
               <TooltipProvider>
                 <Tooltip>
@@ -116,7 +116,7 @@ export default function Page() {
                       tmp?.click();
                     }}
                   >
-                    <Upload className="size-[20px]" />
+                    <Upload className="size-[21px]" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <span>Upload Resume</span>
@@ -126,7 +126,7 @@ export default function Page() {
             </div>
             <Input
               value={input}
-              disabled={disabled}
+              disabled={isLoading}
               className="!rounded-none"
               onChange={handleInputChange}
               placeholder="Ask something..."
