@@ -1,7 +1,8 @@
 import { useEffect, useRef, RefObject } from "react";
 
 export function useScrollToBottom<T extends HTMLElement>(
-  messages: any[]
+  messages: any[],
+  loading: boolean
 ): [RefObject<T>, RefObject<T>] {
   const containerRef = useRef<T>(null);
   const endRef = useRef<T>(null);
@@ -21,11 +22,9 @@ export function useScrollToBottom<T extends HTMLElement>(
         characterData: true,
       });
 
-      end.scrollIntoView({ behavior: "smooth", block: "end" });
-
       return () => observer.disconnect();
     }
-  }, [messages]);
+  }, [messages, loading]);
 
   return [containerRef, endRef];
 }

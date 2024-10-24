@@ -10,7 +10,7 @@ interface ContentProps {
 
 export default function Messages({ isLoading, messages }: ContentProps) {
   const [messagesContainerRef, messagesEndRef] =
-    useScrollToBottom<HTMLDivElement>(messages);
+    useScrollToBottom<HTMLDivElement>(messages, isLoading);
 
   return isLoading ? (
     <div className="mt-8 flex flex-col gap-y-2">
@@ -19,7 +19,7 @@ export default function Messages({ isLoading, messages }: ContentProps) {
       <div className="h-[30px] animate-pulse bg-black/10" />
     </div>
   ) : (
-    <div className="h-[calc(100%-130px)] mb-10 my-4 overflow-y-scroll">
+    <div className="h-[calc(100%-130px)] mb-10 my-4 overflow-y-scroll pr-7">
       <div ref={messagesContainerRef}>
         {messages.map(({ id, content, role }) => (
           <ChatMessage key={id} content={content} role={role} />
